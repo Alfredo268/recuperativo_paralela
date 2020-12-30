@@ -36,8 +36,7 @@ void sueldo_minimo_dolar(char *archivo_1,char *archivo_2,int rank){
             datos_csv.push_back(word);    
         }  
     }
-    int t=0;
-    float r=0;
+
     int e=1;
     for (int i=1995;i<2020;i++)
     {   

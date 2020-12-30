@@ -7,10 +7,6 @@
 #include <sstream>
 #include <iostream>
 using namespace std;
-#define PC_1 1
-#define PC_2 2
-#define PC_3 3
-#define PC_4 4
 #include "headers.h"
 #include "funciones.cpp"
 
@@ -22,7 +18,7 @@ int main(int argc, char* argv[])
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    
+
     sueldo_minimo_dolar(argv[1],argv[2],rank);
     /*if (rank == MASTER){
         cout<<"Proceso master"<<endl;
