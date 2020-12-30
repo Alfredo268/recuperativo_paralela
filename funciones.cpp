@@ -9,16 +9,6 @@
 #include "headers.h"
 using namespace std;
 
-void read(char *archivo){
-    ifstream file(archivo);
-    string line;
-    getline(file, line);
-    getline(file, line);
-    cout<<"get year"<<endl;
-    get_dolar(line);
-    cout<<"get amount"<<endl;
-    get_dolar(line);
-}
 float beta(float x_bar, float y_bar, vector<int> x,vector<float> y){
     float sxy=0, sxx=0;
     for(int i=0;i<x.size();i++){
@@ -32,7 +22,8 @@ float alfa(float beta, float x_bar, float y_bar){
     return y_bar - beta*x_bar;
 }
 //funcion para obtener sueldo minimo en dolar y mostrar la regresion lineal 
-void sueldo_minimo_dolar(char *archivo_1,char *archivo_2){
+void sueldo_minimo_dolar(char *archivo_1,char *archivo_2,int rank){
+
     ifstream infile(archivo_1);
     string line = "";
     vector<string> datos_csv;
@@ -60,12 +51,28 @@ void sueldo_minimo_dolar(char *archivo_1,char *archivo_2){
         promediox += years_finales[i]/years_finales.size();
         promedioy += sueldo_finales[i]/sueldo_finales.size();
     }
-    float beta_coef = beta(promediox,promedioy,years_finales,sueldo_finales);
-    float alfa_coef = alfa(beta_coef,promediox,promedioy);
-    cout<<"--------------RESULTADO---------------"<<endl<<'\n';
-    cout<<"y = "<<alfa_coef<<" + "<<beta_coef<<"x"<<endl<<'\n';
-    cout<<"-------------INTEGRANTES------------"<<endl<<'\n';
-    cout<<"------ALFREDO ANTONIO GARCES ULLOA------"<<endl;
+    if (rank==1)
+    {
+        float beta_coef = beta(promediox,promedioy,years_finales,sueldo_finales);
+        float alfa_coef = alfa(beta_coef,promediox,promedioy);
+        MPI_Send(&alfa_coef,1,MPI_FLOAT,0,1,MPI_COMM_WORLD);
+        MPI_Send(&beta_coef,1,MPI_FLOAT,0,2,MPI_COMM_WORLD);
+    }
+    
+    
+
+    if(rank==0){
+
+        float alfa_coef;
+        float beta_coef;
+        MPI_Recv(&alfa_coef,1,MPI_FLOAT,1,1,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+        MPI_Recv(&beta_coef,1,MPI_FLOAT,1,2,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+        cout<<"--------------RESULTADO---------------"<<endl<<'\n';
+        cout<<"y = "<<alfa_coef<<" + "<<beta_coef<<"x"<<endl<<'\n';
+        cout<<"-------------INTEGRANTES------------"<<endl<<'\n';
+        cout<<"------ALFREDO ANTONIO GARCES ULLOA------"<<endl;
+    }
+    
 
 
 }

@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     
-    sueldo_minimo_dolar(argv[1],argv[2]);
+    sueldo_minimo_dolar(argv[1],argv[2],rank);
     /*if (rank == MASTER){
         cout<<"Proceso master"<<endl;
         promedio_all_year(argv[2]);

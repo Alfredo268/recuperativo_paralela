@@ -16,7 +16,7 @@ using namespace std;
 *
 */
 void read(char *);
-void sueldo_minimo_dolar(char *,char *);
+void sueldo_minimo_dolar(char *,char *,int);
 int get_year(string);
 float get_dolar(string);
 float promedio_year(char *,int);
